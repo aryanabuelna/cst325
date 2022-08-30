@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <script>
+            // global variables
+            let myCanvas;
+
+            var sceneList = [];
+
+            var currentFrameNumber = 0;
+
+            let url = document.URL;
+
+            function init(){
+                console.log("Hello World!");
+                myCanvas = document.getElementById("canva");
+
+                updateAndDraw();
+            } 
+
+
+            function Rectangle(x, y, color, velocity){   
+
+                this.x = x;
+                this.y = y;
+                this.color = color;   
+
+                // velocity property  
+                this.velocity = { x:0, y:0 };
+            }
+
+            // object literal
+            var RectanglePrototype = { 
+                draw : function(){
+                    // reference to canvas store in var ctx used to get context
+                    var ctx = myCanvas.getContext("2d");
+                    // give rectangle color
+                    ctx.fillStyle = this.color;
+                    // give rectangle outline
+                    ctx.strokeRect(this.x, this.y, 50, 50);
+                    ctx.fillRect(this.x, this.y, 50, 50);
+                },
+                update : function(){
+                    // check if rectangle is off the grid if/else
+                    if(this.y > 200){
+                        sceneList.splice(index, 1);
+                    }
+                    this.velocity.y++;
+                    this.y = this.y + this.velocity.y * 0.16;
+                }
+            
+            };
+
+            
+            // Set the unit to inherit the prototype
+            Rectangle.prototype = RectanglePrototype;
+
+            function updateAndDraw(){
+
+                // clear canvas
+                var ctx = myCanvas.getContext("2d");
+                ctx.clearRect(0,0, 300,200);
+
+                var x = Math.floor(Math.random() * 256);
+                var y = Math.floor(Math.random() * 256);
+                var z = Math.floor(Math.random() * 256);
+                var color = "rgb(" + x.toString() + "," + y.toString() + "," + z.toString() + ")";
+                
+                var newRectangleInstance = new Rectangle(Math.floor(Math.random()*300), Math.floor(Math.random()*200), color); 
+                sceneList.push(newRectangleInstance);
+
+                currentFrameNumber++;
+                console.log(currentFrameNumber);
+
+                // iterate thru all rectangles and call draw method
+                for(index = 0; index < sceneList.length; index++){
+                    //console.log(sceneList);
+                    sceneList[index].draw();
+                    sceneList[index].update(index);
+
+                }
+
+                // loop
+                window.requestAnimationFrame(updateAndDraw);
+                updateStats();
+            }
+
+            function updateStats(){
+                var p = document.getElementById("frameCount");
+                p.innerText = "Frame Count: " + currentFrameNumber;
+                     
+                var p = document.getElementById("rectangleCount");
+                p.innerText = "Rectangles Count: " + sceneList.length;
+            }
+
+
+        </script>
+
+     <!-- end of head -->
+    </head>
+
+    <!-- callback function -->
+    <body onload="init()">
+        <canvas id="canva" width="300" height="200" style="border:1px solid gray;">
+
+        </canvas>
+
+        <p id="frameCount">Frame Count: 0</p>
+        <P id="rectangleCount">Rectangle Count: 0</P>
+
+     <!-- end of body -->
+    </body>
+
+ <!-- end of html -->
+</html>
