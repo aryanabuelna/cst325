@@ -23,7 +23,12 @@ void main(void) {
 
     // specular contribution
     // todo #4 in world space, calculate the direction from the surface point to the eye (normalized)
-    //vec3 spec = _ *  _ *max(normalizedLight*normalizedWorld, 0);
+   
+   //vec3 r =  normalizedWorld - normalizedLight;
+    // vec3 spec = dot(normalizedWorld, normalizedLight) * r ;
+    
+    vec3 eyeVec = -(vWorldPosition - uCameraPosition);
+    eyeVec = normalize(eyeVec);
 
     // todo #5 in world space, calculate the reflection vector (normalized)
     // todo #6 calculate the phong term
@@ -48,8 +53,9 @@ void main(void) {
    //gl_FragColor = vec4(normalizedLight, 1.0); // orange ground
    //gl_FragColor = vec4(normalizedWorld, 1.0); // green ground 
 
-    gl_FragColor = vec4( r1, r1, r1, 1.0); // grey ground
+    //gl_FragColor = vec4( r1, r1, r1, 1.0); // grey ground
 
+    gl_FragColor = vec4( eyeVec, 1.0); // gradient green blue ground
 }
 
 // EOF 00100001-10
