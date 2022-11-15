@@ -17,21 +17,8 @@ void main(void) {
     vec3 normalizedWorld = normalize(vWorldNormal);
 
     // todo #3 calculate the lambert term
-
-    // float result = dot(normalizedLight, normalizedWorld);
-    // float lambertTerm = max(result, 0.0);
-
-    // vec3 N = normalize(normalizedWorld * vWorldNormal);
-    // vec3 L = normalize( vWorldPosition - vTexcoords.xyz);
-    // float dotprod = dot(N,L);
-    // float lambert = max(dotprod, 0.0);
-
-
-    vec3 N = normalize(vWorldNormal);
-    vec3 L = normalize(normalizedWorld - normalizedLight);
-    float lambert = max(dot(N, L),0.0);
-    //loat lambert = max(dot(N,L),0.0);
-  
+    float result = dot(normalizedWorld ,normalizedLight);
+    float r1 = max(result, 0.0);
 
 
     // specular contribution
@@ -59,12 +46,9 @@ void main(void) {
    //gl_FragColor = vec4(finalColor, 1.0); // original code
    //gl_FragColor = vec4(uLightDirection, 1.0); // yellow ground
    //gl_FragColor = vec4(normalizedLight, 1.0); // orange ground
-   // gl_FragColor = vec4(normalizedWorld, 1.0); // green ground 
+   //gl_FragColor = vec4(normalizedWorld, 1.0); // green ground 
 
-    // gl_FragColor = vec4(lambertTerm, lambertTerm, lambertTerm, lambertTerm);  // grey ground but its blue or white only???
-    //gl_FragColor = vec4(lambert, lambert,lambert,lambert);
-    //gl_FragColor = vec4(lambert , 1.0,1.0,1.0);
-    gl_FragColor = vec4(lambert , 0.0,0.0,0.0);
+    gl_FragColor = vec4( r1, r1, r1, 1.0); // grey ground
 
 }
 
